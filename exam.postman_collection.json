@@ -1,0 +1,200 @@
+{
+	"info": {
+		"_postman_id": "3263544a-23aa-490f-9a11-5274987729c4",
+		"name": "exam",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2641917"
+	},
+	"item": [
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"// Check status code",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"// Set collectionVariables variable for auth token",
+							"pm.collectionVariables.set(\"authtoken\", response.data.token);",
+							"",
+							"// Assert that the token is set correctly",
+							"pm.test(\"Auth token is set\", function () {",
+							"    pm.expect(pm.collectionVariables.get(\"authtoken\")).to.equal(response.data.token);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "testuser",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "exam",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authtoken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"content\": \"deserunt aute\",\n  \"user\": -29864021,\n  \"address\": -52366150,\n  \"order\": {\n    \"id\": -5541875,\n    \"status\": \"CANCELLED\",\n    \"lineItems\": [\n      {\n        \"id\": 3334500,\n        \"order\": 20661029,\n        \"product\": 2524327,\n        \"quantity\": 61204635\n      },\n      {\n        \"id\": 31138167,\n        \"order\": 44185958,\n        \"product\": 9854662,\n        \"quantity\": 9830419\n      }\n    ],\n    \"payment\": {}\n  }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/exams/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"exams",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "submit",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"examId\": 1,\n    \"userAnswers\": [\n        {\n            \"questionId\": 1,\n            \"selectedOptionIndex\": 1\n        },\n        {\n            \"questionId\": 2,\n            \"selectedOptionIndex\": 2\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/submit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"submit"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "authtoken",
+			"value": ""
+		}
+	]
+}
